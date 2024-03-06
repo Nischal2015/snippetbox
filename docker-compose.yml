@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:8.0.36-debian
+    container_name: snippetbox-db
+    restart: always
+    secrets:
+      - root-password
+      - snippetbox-password
+    volumes:
+      - data:/var/lib/mysql
+    networks:
+      - snippetbox
+    environment:
+      - MYSQL_DATABASE=snippetbox
+      - MYSQL_ROOT_PASSWORD_FILE=run/secrets/root-password
+      - MYSQL_USER=snippetbox
+      - MYSQL_PASSWORD_FILE=run/secrets/snippetbox-password
+
+    ports:
+      - 3306:3306
+      - 33060:33060
+
+volumes:
+  data:
+
+secrets:
+  root-password:
+    file: docker/db/root.txt
+  snippetbox-password:
+    file: docker/db/snippetbox.txt
+
+networks:
+  snippetbox:
