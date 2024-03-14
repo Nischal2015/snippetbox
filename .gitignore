@@ -22,3 +22,6 @@ go.work
 
 # db secrets
 docker/db/*
+
+# run script
+run.sh
