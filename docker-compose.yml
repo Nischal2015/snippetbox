@@ -17,10 +17,16 @@ services:
       - MYSQL_ROOT_PASSWORD_FILE=run/secrets/root-password
       - MYSQL_USER=snippetbox
       - MYSQL_PASSWORD_FILE=run/secrets/snippetbox-password
-
     ports:
       - 3306:3306
-      - 33060:33060
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 1G
+        reservations:
+          cpus: "0.1"
+          memory: 256M
 
 volumes:
   data:
