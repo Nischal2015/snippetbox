@@ -23,5 +23,8 @@ go.work
 # db secrets
 docker/db/*
 
-# run script
+# Run script
 run.sh
+
+# SSL certificates
+tls/
