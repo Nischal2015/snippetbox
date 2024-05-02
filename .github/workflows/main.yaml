@@ -1,0 +1,23 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup_go:
+    name: Setup golang
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Golang environment
+        uses: actions/setup-go@v5
+        with:
+          go-version: '>1.17.0'
+
+      - name: Print go version
+        run: go version
