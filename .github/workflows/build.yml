@@ -55,6 +55,8 @@ jobs:
           files: web
 
   deploy-prod:
+    permissions:
+      contents: write
     needs: [build]
     if: ${{ github.ref == 'refs/heads/main' }}
 
