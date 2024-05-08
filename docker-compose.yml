@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   db:
     image: mysql:8.0.36-debian
@@ -10,6 +8,8 @@ services:
       - snippetbox-password
     volumes:
       - data:/var/lib/mysql
+    ports:
+      - 3306:3306
     networks:
       - snippetbox
     environment:
@@ -17,8 +17,6 @@ services:
       - MYSQL_ROOT_PASSWORD_FILE=run/secrets/root-password
       - MYSQL_USER=snippetbox
       - MYSQL_PASSWORD_FILE=run/secrets/snippetbox-password
-    ports:
-      - 3306:3306
     deploy:
       resources:
         limits:
@@ -28,6 +26,23 @@ services:
           cpus: "0.1"
           memory: 256M
 
+  # app:
+  #   build:
+  #     context: .
+  #     target: dev-envs
+  #   secrets:
+  #     - web-password
+  #   networks:
+  #     - snippetbox
+  #   restart: always
+  #   volumes:
+  #     - ./:/code
+  #   ports:
+  #     - 4000:4000
+  #   depends_on:
+  #     - db
+
+
 volumes:
   data:
 
@@ -36,6 +51,8 @@ secrets:
     file: docker/db/root.txt
   snippetbox-password:
     file: docker/db/snippetbox.txt
+  web-password:
+    file: docker/db/web.txt
 
 networks:
   snippetbox:

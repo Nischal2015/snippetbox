@@ -19,6 +19,9 @@ jobs:
         with:
           go-version: '>=1.21.6'
 
+      - name: Install dependencies
+        run: go mod download
+
       - name: Build project
         run: go build ./cmd/web
 
@@ -27,6 +30,19 @@ jobs:
         with:
           name: web.zip
           path: ./
+
+      - uses: actions/cache@v4
+        env:
+          cache-name: go-cache
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
   deploy-dev:
     permissions:

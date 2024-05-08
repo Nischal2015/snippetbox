@@ -30,7 +30,7 @@ type application struct {
 
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
-	dsn := flag.String("dsn", "web:"+os.Getenv("DB_PASSWORD")+"@/snippetbox?parseTime=true", "MySQL data source name")
+	dsn := flag.String("dsn", dsn(), "MySQL data source name")
 
 	flag.Parse()
 
@@ -94,4 +94,12 @@ func openDB(dsn string) (*sql.DB, error) {
 		return nil, err
 	}
 	return db, err
+}
+
+func dsn() string {
+	bin, err := os.ReadFile("/run/secrets/web-password")
+	if err != nil {
+		return "web:" + os.Getenv("DB_PASSWORD") + "@/snippetbox?parseTime=true"
+	}
+	return "web:" + string(bin) + "@(db:3306)/snippetbox?parseTime=true"
 }
