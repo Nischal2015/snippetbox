@@ -3,7 +3,6 @@ name: CI
 on:
   push:
     branches:
-      - main
       - dev
 
 jobs:
@@ -91,4 +90,4 @@ jobs:
     uses: ./.github/workflows/create-issue.yaml
     with:
       title: 'Automated workflow failure issue for commit ${{ github.sha }}'
-      body: 'This issue was automatically created by Github Action workflow ** ${{ github.worflow }} **'
+      body: 'This issue was automatically created by Github Action workflow ** ${{ github.workflow }} **'
